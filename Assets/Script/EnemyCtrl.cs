@@ -8,12 +8,12 @@ public class EnemyCtrl : MonoBehaviour
     public float health;
     public float score;
     public float speed;
-    
+
     public float animationScale = 1f;
     public float bulletSpeed = 3f;
     public float curBulletDelay = 0f;
     public float maxBulletDelay = 1f;
-    
+
     public Sprite[] sprites;
 
     public GameObject bulletPrefab00;
@@ -27,7 +27,7 @@ public class EnemyCtrl : MonoBehaviour
     Animator anim;
     Rigidbody2D rd;
     SpriteRenderer spriteRenderer;
-    
+
     void Awake()
     {
         rd = GetComponent<Rigidbody2D>();
@@ -39,10 +39,9 @@ public class EnemyCtrl : MonoBehaviour
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-
     }
 
-    
+
     void Update()
     {
         Fire();
@@ -121,8 +120,8 @@ public class EnemyCtrl : MonoBehaviour
     {
         health -= BulletPower;
 
-        spriteRenderer.sprite = sprites[1];
 
+        spriteRenderer.color = Color.red;
         Invoke("ReturnSprite", 0.1f);
 
         if (health <= 0)
@@ -161,7 +160,8 @@ public class EnemyCtrl : MonoBehaviour
 
     private void ReturnSprite()
     {
-        spriteRenderer.sprite = sprites[0];
+
+        spriteRenderer.color = new Color(255f, 255f, 255f);
 
     }
 }

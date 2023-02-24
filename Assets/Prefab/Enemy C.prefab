@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -147,19 +147,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394c06330df749e4a8203140c3902520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
   health: 7
   score: 50
+  speed: 2
+  animationScale: 1.5
+  bulletSpeed: 3
   curBulletDelay: 0
   maxBulletDelay: 1
-  bulletSpeed: 3
   sprites:
   - {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   bulletPrefab00: {fileID: 8928701864278707589, guid: ab4543bdde583ec4fb2fa1b3a79546eb, type: 3}
-  playerObject: {fileID: 1028716400311564993, guid: 06e686b922d36f64db64637e05a1df37, type: 3}
   itemMakerPrefab: {fileID: 872059197522501985, guid: 0a4e316157957dc438281fab5c1ad1a3, type: 3}
-  animationScale: 1.5
 --- !u!95 &-6707100765721731939
 Animator:
   serializedVersion: 5

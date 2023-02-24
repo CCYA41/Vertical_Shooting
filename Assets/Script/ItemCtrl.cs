@@ -10,7 +10,7 @@ public class ItemCtrl : MonoBehaviour
 
     int itemCode = 99;
 
-    
+
 
     Rigidbody2D rigi2D;
     PlayerCtrl playerCtrl;
@@ -38,12 +38,12 @@ public class ItemCtrl : MonoBehaviour
 
             itemCode = 2;
         }
-        else if (randN > 10 && randN <=13)
+        else if (randN > 10 && randN <= 13)
         {
             GameObject item = Instantiate(items[0], transform.position, Quaternion.identity);
             item.transform.SetParent(this.transform, true);
             item.SetActive(true);
-            
+
             itemCode = 0;
         }
         else if (randN > 13 && randN <= 15)
@@ -102,20 +102,24 @@ public class ItemCtrl : MonoBehaviour
                     Destroy(gameObject);
                     break;
                 case 1:
-                    GameManager.curScore += 500;
-                    GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
-                    GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
-                    for (int i = 0; i < enemys.Length; i++)
-                    {
-                        EnemyCtrl enemyCtrl = enemys[i].GetComponent<EnemyCtrl>();
-                        enemyCtrl.DestroyOrder();
-                        GameManager gmLogic = FindObjectOfType<GameManager>();
-                        gmLogic.curEnemySpwanDelay = -2;
-                    }
-                    for (int i = 0; i < bullets.Length; i++)
-                    {
-                        Destroy(bullets[i], 0.5f);
-                    }
+                    
+                    if (playerCtrl.bomb < playerCtrl.maxBomb)
+                        playerCtrl.bomb += 1;
+                    else
+                        GameManager.curScore += 500;
+                    //GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+                    //GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+                    //for (int i = 0; i < enemys.Length; i++)
+                    //{
+                    //    EnemyCtrl enemyCtrl = enemys[i].GetComponent<EnemyCtrl>();
+                    //    enemyCtrl.DestroyOrder();
+                    //    GameManager gmLogic = FindObjectOfType<GameManager>();
+                    //    gmLogic.curEnemySpwanDelay = -2;
+                    //}
+                    //for (int i = 0; i < bullets.Length; i++)
+                    //{
+                    //    Destroy(bullets[i], 0.5f);
+                    //}
                     Destroy(child.gameObject);
                     Destroy(gameObject);
                     break;

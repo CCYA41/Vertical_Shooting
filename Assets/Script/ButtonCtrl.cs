@@ -7,12 +7,12 @@ public class ButtonCtrl : MonoBehaviour
     public void GameStart()
     {
         GameManager gmLogic = FindObjectOfType<GameManager>();
-        if (!gmLogic.isStart)
+        if (!GameManager.isStart)
         {
             gmLogic.UIInitialize();
         }
         Time.timeScale = 1.0f;
-        gmLogic.isStart = false;
+        GameManager.isStart = false;
         gameObject.SetActive(false);
     }
 }

@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
     public static int curEnemyCount = 0;
     public static int curLife = 0;
 
+    static public bool isStart = true;
+
     public float curEnemySpwanDelay = -2f;
     public float nextEnemySpwanDelay = 2f;
-
-    public bool isStart = true;
 
     public Transform[] spawnPoints;
 
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
 
     public Text scoreText;
-        
+
     int totalScore = 0;
     int totalEnemyCount = 0;
     int totalLife = 0;
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
         PlayerCtrl playerCtrl = FindObjectOfType<PlayerCtrl>();
         playerCtrl.life = 3;
         playerCtrl.power = 1;
+        playerCtrl.curBombDealy = playerCtrl.maxBombDealy;
 
         curScore = 0;
         totalScore = 0;

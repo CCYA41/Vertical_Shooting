@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: -2311659948842064771, guid: 6520dda4a70dfbf40a55b7af39ecda4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -181,12 +181,17 @@ MonoBehaviour:
   speed: 5
   power: 1
   life: 1
+  bomb: 1
+  maxBomb: 3
   isTouchTop: 0
   isTouchBottom: 0
   isTouchLeft: 0
   isTouchRight: 0
   bulletPrefab01: {fileID: 4617214631828523259, guid: e98af3f84a4da394f83d924e13c053fa, type: 3}
   bulletPrefab02: {fileID: 3262825474556085983, guid: ee51579c5d9f1b844981bc7178086cc2, type: 3}
+  bombPrefab: {fileID: 830008304840450496, guid: 62085e09368a0e842872d679072d70db, type: 3}
   gameMgrObj: {fileID: 0}
   curBulletDelay: 0
   maxBulletDelay: 0.3
+  curBoomDealy: 0
+  maxboomDealy: 3

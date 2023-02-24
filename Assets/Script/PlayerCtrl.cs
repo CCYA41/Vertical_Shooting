@@ -10,6 +10,8 @@ public class PlayerCtrl : MonoBehaviour
     public float speed;
     public float power = 1f;
     public float life = 3f;
+    public float bomb = 1f;
+    public float maxBomb = 3f;
 
     public bool isTouchTop = false;
     public bool isTouchBottom = false;
@@ -21,11 +23,15 @@ public class PlayerCtrl : MonoBehaviour
 
     public GameObject bulletPrefab01;
     public GameObject bulletPrefab02;
+    public GameObject bombPrefab;
 
     public GameObject gameMgrObj;
 
     public float curBulletDelay = 0f;
     public float maxBulletDelay = 0.3f;
+
+    public float curBombDealy = 0f;
+    public float maxBombDealy = 3f;
 
     SpriteRenderer spriteCache;
     Color colorCache;
@@ -46,34 +52,15 @@ public class PlayerCtrl : MonoBehaviour
 
         Move();
         Fire();
+        Bomb();
         ReloadBullet();
     }
 
 
-    private void FixedUpdate()
-    {
-        if (!isHit)
-            return;
 
-        if (isHit)
-        {
-            float val = MathF.Sin(Time.time * 50);
-            Debug.LogWarning(val);
-            if (val > 0)
-            {
-                gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            }
-            else
-            {
-                gameObject.GetComponent<SpriteRenderer>().enabled = false;
-
-            }
-            return;
-        }
-    }
     private void Move()
     {
-        if (!isHit)
+        if (!isHit && !GameManager.isStart)
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
@@ -98,7 +85,7 @@ public class PlayerCtrl : MonoBehaviour
     }
     void Fire()
     {
-        if (!Input.GetButton("Fire1"))
+        if (!Input.GetButton("Fire1") || GameManager.isStart)
             return;
 
         if (curBulletDelay < maxBulletDelay)
@@ -152,13 +139,69 @@ public class PlayerCtrl : MonoBehaviour
 
         }
     }
+    void Bomb()
+    {
+        if (!Input.GetButton("Fire2") || GameManager.isStart || bomb <= 0)
+            return;
+
+        if (curBombDealy < maxBombDealy)
+            return;
+
+        BombPower();
+    }
+    void BombPower()
+    {
+        curBombDealy = 0;
+        bomb--;
+        Instantiate(bombPrefab, Vector3.zero, Quaternion.identity);
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        for (int i = 0; i < enemys.Length; i++)
+        {
+            EnemyCtrl enemyCtrl = enemys[i].GetComponent<EnemyCtrl>();
+            enemyCtrl.DestroyOrder();
+            GameManager gmLogic = FindObjectOfType<GameManager>();
+            gmLogic.curEnemySpwanDelay = -2;
+        }
+        for (int i = 0; i < bullets.Length; i++)
+        {
+            Destroy(bullets[i], 0.5f);
+        }
+    }
+
 
     void ReloadBullet()
     {
         curBulletDelay += Time.deltaTime;
+        curBombDealy += Time.deltaTime;
     }
 
+    private void FixedUpdate()
+    {
+        Hit();
+    }
 
+    void Hit()
+    {
+        if (!isHit)
+            return;
+
+        if (isHit)
+        {
+            float val = MathF.Sin(Time.time * 50);
+            Debug.LogWarning(val);
+            if (val > 0)
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            }
+            else
+            {
+                gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            }
+            return;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "PlayerBorder")
@@ -189,7 +232,7 @@ public class PlayerCtrl : MonoBehaviour
             life--;
 
             GameManager gmLogic = gameMgrObj.GetComponent<GameManager>();
-            if (life <=0)
+            if (life <= 0)
             {
                 anim.SetTrigger("IsDead");
                 gmLogic.GameOver();
