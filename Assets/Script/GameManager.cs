@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,22 +16,27 @@ public class GameManager : MonoBehaviour
 
     public float curEnemySpwanDelay = -2f;
     public float nextEnemySpwanDelay = 2f;
-
-    public Transform[] spawnPoints;
+    public float clearScore = 1000f;
 
     public GameObject[] enemyPrefabs;
     public GameObject[] lifeImages;
     public GameObject[] gameTitles;
     public GameObject[] buttons;
 
+    public Transform[] spawnPoints;
+
     public GameObject lifeText;
     public GameObject player;
+    public GameObject bombImage;
 
     public Text scoreText;
+    public Text bombText;
+
 
     int totalScore = 0;
     int totalEnemyCount = 0;
     int totalLife = 0;
+    int totalBomb = 1;
 
     Image imageCache;
     Color colorCache;
@@ -50,6 +56,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+
+        // 초기화는 간단히 할 수 있다.
+        //SceneManager.LoadScene();
+
         UIInitialize();
         ResetField();
 
@@ -60,22 +70,28 @@ public class GameManager : MonoBehaviour
         player.SetActive(true);
 
         PlayerCtrl playerCtrl = FindObjectOfType<PlayerCtrl>();
-        playerCtrl.life = 3;
-        playerCtrl.power = 1;
+        playerCtrl.PlayerStatusReset();
         playerCtrl.curBombDealy = playerCtrl.maxBombDealy;
+        totalBomb = (int)playerCtrl.bomb;
 
         curScore = 0;
         totalScore = 0;
 
+
+        totalBomb = 1;
+
         curEnemyCount = 0;
         totalEnemyCount = 0;
 
-        scoreText.text = "Score\n" + string.Format("{0:D6}", totalScore);
+        scoreText.text = "SCORE\n" + string.Format("{0:D6}", totalScore);
+        bombText.text = "x " + totalBomb;
 
     }
 
     public void ResetField()
     {
+        totalScore = 0;
+
         GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < enemys.Length; i++)
         {
@@ -94,6 +110,19 @@ public class GameManager : MonoBehaviour
             Destroy(PlayerBullets[i]);
         }
 
+        GameObject[] items = GameObject.FindGameObjectsWithTag("ItemMaker");
+        for (int i = 0; i < items.Length; i++)
+        {
+            Destroy(items[i]);
+
+        }
+
+        GameObject[] bombEffect = GameObject.FindGameObjectsWithTag("BoomImage");
+        for (int i = 0; i < bombEffect.Length; i++)
+        {
+            Destroy(bombEffect[i]);
+        }
+
         player.transform.position = startPos;
 
     }
@@ -103,6 +132,10 @@ public class GameManager : MonoBehaviour
         startPos = Vector3.down * 4.2f;
 
         lifeText.SetActive(false);
+
+
+        gameTitles[0].SetActive(false);
+        gameTitles[1].SetActive(false);
 
         int WhileCounter = 0;
         while (WhileCounter < lifeImages.Length)
@@ -138,6 +171,8 @@ public class GameManager : MonoBehaviour
         EnemySpwan();
         ScoreUpdate();
         LifeStatus();
+        BombStatus();
+        GameClear();
 
     }
     void EnemySpwan()
@@ -218,6 +253,19 @@ public class GameManager : MonoBehaviour
 
 
     }
+    void BombStatus()
+    {
+        PlayerCtrl playerCtrl = player.GetComponent<PlayerCtrl>();
+
+
+        if (playerCtrl.bomb == totalBomb)
+            return;
+
+        totalBomb = (int)playerCtrl.bomb;
+
+
+        bombText.text = "x " + totalBomb;
+    }
 
     private void SpwanEnemy()
     {
@@ -243,6 +291,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void GameClear()
+    {
+        if (totalScore < clearScore)
+            return;
+
+
+        gameTitles[0].SetActive(true);
+        buttons[1].SetActive(true);
+
+        Time.timeScale = 0;
+    }
     public void GameOver()
     {
         Invoke("GameOverDeady", 1f);
@@ -250,6 +309,7 @@ public class GameManager : MonoBehaviour
     }
     void GameOverDeady()
     {
+        gameTitles[1].SetActive(true);
         buttons[1].SetActive(true);
 
         Time.timeScale = 0;

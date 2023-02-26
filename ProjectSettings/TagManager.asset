@@ -10,6 +10,8 @@ TagManager:
   - PlayerBullet
   - Enemy
   - PlayerNodamage
+  - ItemMaker
+  - BoomImage
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 

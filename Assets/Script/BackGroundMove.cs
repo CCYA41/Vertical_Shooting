@@ -23,7 +23,7 @@ public class BackGroundMove : MonoBehaviour
             // 이 오브젝트의 (x, y, z)위치를 (0, resetPositionY, 0) 위치로 이동
             { tiles.transform.position = new Vector3(0, resetPositionY, 0); }
 
-            Debug.Log(tiles.name);
+          //  Debug.Log(tiles.name);
         }
     }
 }

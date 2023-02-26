@@ -6,7 +6,7 @@ public class ItemCtrl : MonoBehaviour
 {
     public GameObject[] items;
 
-    float dropSpeed = 2;
+    float dropSpeed = 2f;
 
     int itemCode = 99;
 

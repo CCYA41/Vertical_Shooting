@@ -46,6 +46,14 @@ public class PlayerCtrl : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rigi2D = GetComponent<Rigidbody2D>();
+        PlayerStatusReset();
+
+    }
+    public void PlayerStatusReset()
+    {
+        power = 1f;
+        life = 3f;
+        bomb = 1f;
     }
     void Update()
     {
@@ -189,7 +197,7 @@ public class PlayerCtrl : MonoBehaviour
         if (isHit)
         {
             float val = MathF.Sin(Time.time * 50);
-            Debug.LogWarning(val);
+            // Debug.LogWarning(val);
             if (val > 0)
             {
                 gameObject.GetComponent<SpriteRenderer>().enabled = true;
@@ -232,6 +240,7 @@ public class PlayerCtrl : MonoBehaviour
             life--;
 
             GameManager gmLogic = gameMgrObj.GetComponent<GameManager>();
+
             if (life <= 0)
             {
                 anim.SetTrigger("IsDead");
