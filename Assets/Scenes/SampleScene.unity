@@ -2515,7 +2515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curEnemySpwanDelay: 0
   nextEnemySpwanDelay: 0
-  clearScore: 50
+  clearScore: 2000
   enemyPrefabs:
   - {fileID: 6623997152130441493, guid: 63959c7dcceb7e840b048b6b43468e3b, type: 3}
   - {fileID: 8531963587278584971, guid: 3156af2132f46164fa1a6d6cea010689, type: 3}
